@@ -1,21 +1,25 @@
-# Dockerfile
 FROM node:25
+
+# Instalar libatomic
+RUN apt-get update && \
+    apt-get install -y libatomic1 && \
+    apt-get clean
 
 # Crear directorio de la aplicación
 WORKDIR /usr/src/app
 
-# Copiar archivos al contenedor
+# Copiar archivos necesarios
 COPY package*.json ./
-COPY index.js .
 
 # Instalar dependencias
 RUN npm install
 
-# Copiar el resto de los archivos
+# Copiar el resto de archivos
+COPY index.js .
 COPY users.json .
 
-# Exponer el puerto de la aplicación
+# Exponer el puerto
 EXPOSE 3000
 
-# Comando para iniciar la aplicación
+# Iniciar la app
 CMD ["node", "index.js"]
